@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Consul.Net.Modules</id>
+    <version>1.0</version>
+    <authors>James Andrew-Smith</authors>
+    <owners>James Andrew-Smith</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/james-andrewsmith/consul-net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Common Modules Built on Consul.IO, Distribute Locks, Leader Election, Barriers etc.</description>
+    <tags>Consul.IO Serf Zookeeper Etcd</tags>
+    <dependencies>
+        <dependency id="Consul.Net" /> 
+    </dependencies>
+  </metadata>
+  <files>
+      <file src="build\Consul.Net.Modules.dll" target="build\Consul.Net.Modules.dll" />
+      <file src="build\Consul.Net.Modules.xml" target="build\Consul.Net.Modules.xml" />
+  </files>
+</package>

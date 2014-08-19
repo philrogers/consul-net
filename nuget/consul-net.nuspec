@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Consul.Net</id>
+    <version>1.0</version>
+    <authors>James Andrew-Smith</authors>
+    <owners>James Andrew-Smith</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/james-andrewsmith/consul-net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Client for the Consul.IO HTTP API</description>
+    <tags>Consul.IO Serf Zookeeper Etcd</tags>
+    <dependencies>
+        <dependency id="Newtonsoft.Json" />
+        <dependency id="Microsoft.Bcl" />
+        <dependency id="Microsoft.Bcl.Build" />
+        <dependency id="Microsoft.Net.Http" />
+    </dependencies>
+  </metadata>
+  <files>
+      <file src="build\Consul.Net.dll" target="build\Consul.Net.dll" />
+      <file src="build\Consul.Net.xml" target="build\Consul.Net.xml" />
+  </files>
+</package>
