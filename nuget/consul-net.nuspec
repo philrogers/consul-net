@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Consul.Net</id>
+    <id>consul-net</id>
+    <title>Consul.Net</title>
     <version>1.0</version>
     <authors>James Andrew-Smith</authors>
     <owners>James Andrew-Smith</owners>
