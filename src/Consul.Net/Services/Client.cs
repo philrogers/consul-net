@@ -9,35 +9,6 @@ using System.Net.Http.Headers;
 
 namespace Consul.Net
 {
-
-    public sealed class ConsulRequest
-    {
-        // wait
-        
-
-        public string Url
-        {
-            get;
-            set;
-        }
-
-        public HttpMethod Method
-        {
-            get;
-            set;
-        }
-    }
-
-    public sealed class ConsulResponse
-    {
-        public Exception Exception
-        {
-            get;
-            set;
-        }
-    }
-     
-
     public sealed partial class ConsulClient
     {
         // constructor
