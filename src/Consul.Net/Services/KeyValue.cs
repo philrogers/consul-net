@@ -30,9 +30,7 @@ namespace Consul.Net
                 return null;
  
             var json = await  response.Content.ReadAsStringAsync();
-           //phils code looks like this is returned as an array
-           //    var kv = JsonConvert.DeserializeObject<KeyValue>(json) ;
-            // return a list of keyvalue objects
+       // return a list of keyvalue objects
             var kvx = JsonConvert.DeserializeObject<List<KeyValue>>(json);
           KeyValue kv = null;
        // kv = new KeyValue();

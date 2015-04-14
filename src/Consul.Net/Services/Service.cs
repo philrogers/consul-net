@@ -23,7 +23,6 @@ namespace Consul.Net
             var uri = GetRequestUri("agent/service/register");            
 
             var request = new HttpRequestMessage(HttpMethod.Put, uri);
-            var phil = JsonConvert.SerializeObject(service);
             request.Content = new StringContent(JsonConvert.SerializeObject(service), Encoding.UTF8, "application/json");
             var response = await Execute(request).ConfigureAwait(false);
             return response.StatusCode == HttpStatusCode.OK;
