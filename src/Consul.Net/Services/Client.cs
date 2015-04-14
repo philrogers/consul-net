@@ -21,11 +21,27 @@ namespace Consul.Net
         public ConsulClient(ConsulConfiguration config)
         {
             _config = config;
+    
 
             HttpClientHandler handler = new HttpClientHandler();
             handler.AllowAutoRedirect = true;
+           
             handler.AutomaticDecompression = DecompressionMethods.GZip;
             _client = new HttpClient(handler);
+            
+        }
+
+        public ConsulClient(string ConnectIpandPort, String strDataCentre)
+            : this(ConsulConfiguration.Instance)
+        {
+            _config.ChangeDefaultConnection(ConnectIpandPort, strDataCentre);  
+                   
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.AllowAutoRedirect = true;
+
+            handler.AutomaticDecompression = DecompressionMethods.GZip;
+            _client = new HttpClient(handler);
+
         }
 
         
@@ -38,7 +54,7 @@ namespace Consul.Net
 
         private Uri GetRequestUri(string suffix)
         {
-            return new Uri("http://" + _config.Agent + "/v1/" + suffix);
+            return new Uri("http://" + _config.Agent  + "/v1/" + suffix);
         }
 
         private Task<HttpResponseMessage> Execute(HttpRequestMessage request)

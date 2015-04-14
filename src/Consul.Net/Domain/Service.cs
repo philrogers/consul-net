@@ -15,7 +15,13 @@ namespace Consul.Net
             get;
             set;
         }
-         
+
+        [JsonProperty("Name")]
+        public string Name
+        {
+            get;
+            set;
+        }
         [JsonProperty("Tags")]
         public List<string> Tags
         {

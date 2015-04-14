@@ -26,11 +26,22 @@ namespace Consul.Net
             instance = new ConsulConfiguration();
             instance.GetFromFile();
         }
-
+        public ConsulConfiguration ChangeDefaultConnection(string strhostandport, string strdatacentre)
+        {
+            if (strhostandport != "")
+            {
+               instance.Agent = strhostandport;
+            }
+            if (strdatacentre != "")
+            {
+                instance.DataCenter  = strdatacentre;
+            }
+            return instance;
+        }
         private void GetFromFile()
         {
 
-            var oconfig = ConsulConfigurationHandler.Get();
+           var oconfig = ConsulConfigurationHandler.Get();
             if (oconfig == null)
                 throw new Exception("Consul section was not found in app/web.config");
 
@@ -50,7 +61,18 @@ namespace Consul.Net
     {
         public static ConsulConfigurationHandler Get()
         {
+            //string phil;
+            //  phil =  ConfigurationManager.GetSection() 
+            try
+            {
+                ConfigurationManager.GetSection("consul/settings");
+            }
+            catch (Exception ex)
+            {
+            }
+
             return (ConsulConfigurationHandler)ConfigurationManager.GetSection("consul/settings");
+
         }
 
         [ConfigurationProperty("dataCenter", IsRequired = true)]

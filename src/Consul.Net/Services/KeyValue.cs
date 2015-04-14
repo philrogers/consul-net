@@ -23,19 +23,43 @@ namespace Consul.Net
             var uri = GetRequestUri("kv/" + key);            
             if (!string.IsNullOrEmpty(dc)) uri.AddQuery("dc", dc);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, uri);            
-            var response = await Execute(request);
+            var request = new HttpRequestMessage(HttpMethod.Get  , uri);  
+         
+            var response = await Execute(request).ConfigureAwait(false)  ;
             if (response.StatusCode != HttpStatusCode.OK)
                 return null;
-
-            var json = await response.Content.ReadAsStringAsync();
-            var kv = JsonConvert.DeserializeObject<KeyValue>(json);
-
+ 
+            var json = await  response.Content.ReadAsStringAsync();
+           //phils code looks like this is returned as an array
+           //    var kv = JsonConvert.DeserializeObject<KeyValue>(json) ;
+            // return a list of keyvalue objects
+            var kvx = JsonConvert.DeserializeObject<List<KeyValue>>(json);
+          KeyValue kv = null;
+       // kv = new KeyValue();
+            int ct;
+            ct= kvx.Count; 
+            if (ct >= 0) 
+            {
+                 kv = kvx[0];
+            }
+  
+           
             IEnumerable<string> values;
             if (response.Headers.TryGetValues("X-Consul-Index", out values))
             {
                 kv.ModifyIndex = Convert.ToInt32(values.First());
             }
+
+
+            string retval = string.Empty;
+            if (!string.IsNullOrEmpty(kv.Value))
+            {
+                byte[] base64EncodedBytes = Convert.FromBase64String(kv.Value);
+                retval = Encoding.UTF8.GetString(base64EncodedBytes);
+              
+            }
+
+            kv.Value = retval;
 
             return kv;
         }
@@ -51,7 +75,7 @@ namespace Consul.Net
             if (!string.IsNullOrEmpty(dc)) uri.AddQuery("dc", dc);
             
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<KeyValue>>(json);  
@@ -70,8 +94,8 @@ namespace Consul.Net
 
             var request = new HttpRequestMessage(HttpMethod.Put, uri);
             request.Content = new StringContent(kv.Value);
-            
-            var response = await Execute(request);
+
+            var response = await Execute(request).ConfigureAwait(false);
             return (response.StatusCode == HttpStatusCode.OK);            
         }
 
@@ -87,7 +111,7 @@ namespace Consul.Net
 
             var request = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
             return (response.StatusCode == HttpStatusCode.OK);
         }
 
@@ -96,16 +120,19 @@ namespace Consul.Net
             return KeyValueListAsync(prefix, separator).ExecuteSync();
         }
 
+
         public async Task<IEnumerable<string>> KeyValueListAsync(string prefix, string separator)
+        // public async Task<IEnumerable<string>> KeyValueListAsync(string prefix, string separator)
+    
         {
             var uri = GetRequestUri("kv/" + prefix);
             uri.AddQuery("separator", separator);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            var response = await Execute(request);
+         var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            var response = await Execute(request).ConfigureAwait(false);
+        //    var response = await Execute(request);
             if (response.StatusCode == HttpStatusCode.NotFound)
-                return new List<string> { };
+                return new List<string> {};
 
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<string>>(json);
