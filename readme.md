@@ -36,14 +36,14 @@ To use these default settings
 Vb Code
 
 Dim Connection = New Consul.Net.ConsulClient()
-Console.WriteLine ("Current :" + Connection.CurrentDataCenter + " " + Connection.CurrentAgent)
-Console.WriteLine ("Defaults :" + Connection.DefaultDataCenter + " " + Connection.DefaultAgent)
+Console.WriteLine ("Current :" + Connection.CurrentDataCenter + " Agent=" + Connection.CurrentAgent)
+Console.WriteLine ("Defaults :" + Connection.DefaultDataCenter + " Agent=" + Connection.DefaultAgent)
 
 Vb Code
 to Specify custom connection setting
 Dim Connection = New Consul.Net.ConsulClient("10.10.10.1:8500","MYDC")
-Console.WriteLine ("Current :DC=" + Connection.CurrentDataCenter + " " + Connection.CurrentAgent)
-Console.WriteLine ("Defaults :DC=" + Connection.DefaultDataCenter + " " + Connection.DefaultAgent)
+Console.WriteLine ("Current :DC=" + Connection.CurrentDataCenter + " Agent=" + Connection.CurrentAgent)
+Console.WriteLine ("Defaults :DC=" + Connection.DefaultDataCenter + " Agent=" + Connection.DefaultAgent)
 
 C#
 Consul.Net.ConsulClient consulconnection = new Consul.Net.ConsulClient();
