@@ -26,20 +26,7 @@ Connection.DefaultAgent
 if you create an instance without any connection details the default values will be used. The code supports the ability to read these settings from 
 your app.config file in your application. Set the defaults to your test consul server.
 
-<----Snip Cut below>
-<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <configSections>
-    <sectionGroup name="consul" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-      <section name="settings" type="Consul.Net.ConsulConfigurationHandler, Consul-Net" />
-    </sectionGroup>
-
-  </configSections>
-  <consul>
-    <settings agent="10.10.10.5:8500" dataCenter="mydc" />
-  </consul>
-</configuration>
-<---end above Snip>
+see example.app.config in the consul-net\src\Consul.Net.TestSuite
 
 If this default information is are not set in your app.config you will get a runtime error thats a pain to debug.
 
