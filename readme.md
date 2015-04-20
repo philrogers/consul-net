@@ -26,9 +26,9 @@ Connection.DefaultAgent
 if you create an instance without any connection details the default values will be used. The code supports the ability to read these settings from 
 your app.config file in your application. Set the defaults to your test consul server.
 
-see example.app.config in the consul-net\src\Consul.Net.TestSuite
+see example.app.config in the consul-net\src\Consul.Net.TestSuite. Paste it into your applications app.config
 
-If this default information is are not set in your app.config you will get a runtime error thats a pain to debug.
+If this default information is not set in your app.config you will get a runtime error thats a pain to debug.
 
 
 To use these default settings
@@ -42,19 +42,19 @@ Console.WriteLine ("Defaults :" + Connection.DefaultDataCenter + " " + Connectio
 Vb Code
 to Specify custom connection setting
 Dim Connection = New Consul.Net.ConsulClient("10.10.10.1:8500","MYDC")
-Console.WriteLine ("Current :" + Connection.CurrentDataCenter + " " + Connection.CurrentAgent)
-Console.WriteLine ("Defaults :" + Connection.DefaultDataCenter + " " + Connection.DefaultAgent)
+Console.WriteLine ("Current :DC=" + Connection.CurrentDataCenter + " " + Connection.CurrentAgent)
+Console.WriteLine ("Defaults :DC=" + Connection.DefaultDataCenter + " " + Connection.DefaultAgent)
 
 C#
 Consul.Net.ConsulClient consulconnection = new Consul.Net.ConsulClient();
-Console.WriteLine("Current :" + consulconnection.CurrentDataCenter + " dc=" + consulconnection.CurrentAgent);
-Console.WriteLine("Defaults :" + consulconnection.DefaultDataCenter + " dc=" + consulconnection.DefaultAgent);
+Console.WriteLine("Current :DC=" + consulconnection.CurrentDataCenter + " Agent=" + consulconnection.CurrentAgent);
+Console.WriteLine("Defaults :DC=" + consulconnection.DefaultDataCenter + " Agent=" + consulconnection.DefaultAgent);
 
 C#
 to Specify custom connection setting
 Consul.Net.ConsulClient consulconnection = new Consul.Net.ConsulClient("10.10.10.1:8500","MYDC");
-Console.WriteLine("Current :" + consulconnection.CurrentDataCenter + " dc=" + consulconnection.CurrentAgent);
-Console.WriteLine("Defaults :" + consulconnection.DefaultDataCenter + " dc=" + consulconnection.DefaultAgent);
+Console.WriteLine("Current :DC=" + consulconnection.CurrentDataCenter + " Agent=" + consulconnection.CurrentAgent);
+Console.WriteLine("Defaults :DC=" + consulconnection.DefaultDataCenter + " Agent=" + consulconnection.DefaultAgent);
 
 
 Coding Examples
@@ -64,13 +64,13 @@ To Write a KeyValue
 In VB
 
 Dim kv As New Consul.Net.KeyValue
-Dim strDataCentreName as string = "mydc"
+Dim strDataCentre as string = "mydc"
 Dim strAppPath as string = "myapplications/mykey"
 
-kv.Key = strAppPath.ToLower     ' something like myapplications/mykey
+kv.Key = strAppPath.ToLower     
 kv.Value = "Hello World"
 
-Dim ocli= New Consul.Net.ConsulClient("10.10.10.1:8500",strDataCentreName)         
+Dim ocli= New Consul.Net.ConsulClient("10.10.10.1:8500",strDataCentre)         
            
 ocli.KeyValuePut(kv, 0, Nothing, Nothing, strDataCentreName)
 
@@ -82,4 +82,6 @@ C#
  kv.Value = "something";
  client.KeyValuePut(kv,0,null,null,"mydc");
  or
-  client.KeyValuePut(kv);  // to use current dc that is set
+ client.KeyValuePut(kv);  // to use current dc that is set
+
+
