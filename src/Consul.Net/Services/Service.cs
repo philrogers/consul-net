@@ -40,6 +40,5 @@ namespace Consul.Net
             var response = await Execute(request).ConfigureAwait(false);
             return response.StatusCode == HttpStatusCode.OK;
         }
-         
-    }
+     }
 }

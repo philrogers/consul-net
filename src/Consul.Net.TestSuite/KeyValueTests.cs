@@ -13,6 +13,7 @@ namespace Consul.Net.TestSuite
         [TestInitialize]
         public void Setup()
         {
+          //  ConsulClient client;
             client = new ConsulClient();
         }
 
@@ -38,19 +39,19 @@ namespace Consul.Net.TestSuite
         [TestMethod]
         public void KeyValueGetRecursive()
         {
-            var list = client.KeyValueGetRecursive("test");
+            var list = client.KeyValueGetRecursive("test?seperator=/");
 
             Assert.IsNotNull(list);
-            Assert.IsTrue(list.Count() > 1);
+            Assert.IsTrue(list.Count() >= 1);
             Assert.IsTrue(list.Count() == list.Where(_ => _.Key.StartsWith("test")).Count());
         }
 
         [TestMethod]
         public void KeyValueList()
         {
-            var list = client.KeyValueList("test", "/");
+            var list = client.KeyValueList("test?keys", "/");
             Assert.IsNotNull(list);
-            Assert.IsTrue(list.Count() > 1);
+            Assert.IsTrue(list.Count() >= 0);
         }
     }
 }

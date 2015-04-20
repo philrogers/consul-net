@@ -7,18 +7,24 @@ using System.Threading.Tasks;
 
 namespace Consul.Net
 {
-    public sealed partial class ConsulConfiguration
+     public  partial class ConsulConfiguration
+ //   public sealed partial class ConsulConfiguration
     {
 
         // dc
         // port
         // address
         // 
-
-        private static ConsulConfiguration instance;
-        public static ConsulConfiguration Instance
+        private static  ConsulConfiguration instance;
+        public  static ConsulConfiguration Instance
         {
-            get { return instance; }
+            get { 
+                // if we have come here with no arguments default the agent and datacentre back to what they were set to on startup
+                // otherwise this will hold the last value set which may not be correct if you are flipping between data centres
+                instance.SetBackToRuntimeDefaults(); 
+                return instance;
+            
+                }
         }
 
         static ConsulConfiguration()
@@ -36,6 +42,7 @@ namespace Consul.Net
             {
                 instance.DataCenter  = strdatacentre;
             }
+            SetRuntimeDefaults(); // will only set if first time here
             return instance;
         }
         private void GetFromFile()
@@ -44,15 +51,47 @@ namespace Consul.Net
            var oconfig = ConsulConfigurationHandler.Get();
             if (oconfig == null)
                 throw new Exception("Consul section was not found in app/web.config");
-
-
+            
             instance.DataCenter = oconfig.DataCenter;
-            instance.Agent = oconfig.Agent;            
+            instance.Agent = oconfig.Agent;
+            SetRuntimeDefaults();
         }
+
+        // Allow Startup values to be remembered in case of later datacentre change
+        // This feature allows the consul datacentre to change to a different datacentre for writing
+        // if no datacentre is passed into the client will revert back to defaults.
+        // instead of the last value set.
+   
+         private void SetRuntimeDefaults()  
+         {
+            if (instance.DefaultDataCenter == null)
+            {
+                instance.DefaultDataCenter = instance.DataCenter;
+            }
+            if (instance.DefaultAgent == null)
+            {
+                instance.DefaultAgent = instance.Agent;
+            }
+         }
+
+         private void SetBackToRuntimeDefaults()
+         {
+             if (instance.DefaultDataCenter != null)
+             {
+                instance.DataCenter = instance.DefaultDataCenter;
+             }
+             if (instance.DefaultAgent != null)
+             {
+                 instance.Agent = instance.DefaultAgent;
+             }
+         }
 
         #region // Properties //
         public string DataCenter { get; private set; }
         public string Agent { get; private set; }
+        public string DefaultDataCenter { get; private set; }
+        public string DefaultAgent { get; private set; }
+
         #endregion
 
     }
@@ -61,16 +100,8 @@ namespace Consul.Net
     {
         public static ConsulConfigurationHandler Get()
         {
-            //string phil;
-            //  phil =  ConfigurationManager.GetSection() 
-            try
-            {
-                ConfigurationManager.GetSection("consul/settings");
-            }
-            catch (Exception ex)
-            {
-            }
-
+             ConfigurationManager.GetSection("consul/settings");
+            
             return (ConsulConfigurationHandler)ConfigurationManager.GetSection("consul/settings");
 
         }
@@ -93,6 +124,7 @@ namespace Consul.Net
         {
             get
             {
+              
                 return (string)this["agent"];
             }
             set

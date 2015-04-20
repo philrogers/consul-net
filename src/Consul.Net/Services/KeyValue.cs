@@ -30,10 +30,10 @@ namespace Consul.Net
                 return null;
  
             var json = await  response.Content.ReadAsStringAsync();
-       // return a list of keyvalue objects
+            // return a list of keyvalue objects
             var kvx = JsonConvert.DeserializeObject<List<KeyValue>>(json);
-          KeyValue kv = null;
-       // kv = new KeyValue();
+            KeyValue kv = null;
+           // kv = new KeyValue();
             int ct;
             ct= kvx.Count; 
             if (ct >= 0) 
@@ -48,17 +48,14 @@ namespace Consul.Net
                 kv.ModifyIndex = Convert.ToInt32(values.First());
             }
 
-
             string retval = string.Empty;
             if (!string.IsNullOrEmpty(kv.Value))
             {
                 byte[] base64EncodedBytes = Convert.FromBase64String(kv.Value);
                 retval = Encoding.UTF8.GetString(base64EncodedBytes);
-              
             }
 
             kv.Value = retval;
-
             return kv;
         }
 
@@ -128,7 +125,6 @@ namespace Consul.Net
 
          var request = new HttpRequestMessage(HttpMethod.Get, uri);
             var response = await Execute(request).ConfigureAwait(false);
-        //    var response = await Execute(request);
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return new List<string> {};
 

@@ -22,7 +22,7 @@ namespace Consul.Net
         {
             var uri = GetRequestUri("agent/checks");            
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
 
             var json = await response.Content.ReadAsStringAsync();
             var o = JObject.Parse(json);
@@ -39,7 +39,7 @@ namespace Consul.Net
         {
             var uri = GetRequestUri("agent/services");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
 
             var json = await response.Content.ReadAsStringAsync();
             var o = JObject.Parse(json);
@@ -56,7 +56,7 @@ namespace Consul.Net
         {
             var uri = GetRequestUri("agent/members");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
 
             var json = await response.Content.ReadAsStringAsync();
             var o = JObject.Parse(json);
@@ -73,7 +73,7 @@ namespace Consul.Net
         {
             var uri = GetRequestUri("agent/self");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
             var json = await response.Content.ReadAsStringAsync();
             var o = JToken.Parse(json);
             return new Tuple<AgentConfig,Member>(o.Value<AgentConfig>("Config"), 
@@ -91,7 +91,7 @@ namespace Consul.Net
             if (wan.HasValue) uri.AddQuery("wan", wan.Value);
 
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
             return response.StatusCode == HttpStatusCode.OK;
         }
 
@@ -104,7 +104,7 @@ namespace Consul.Net
         {
             var uri = GetRequestUri("agent/force-leave/" + node);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await Execute(request);
+            var response = await Execute(request).ConfigureAwait(false);
             return response.StatusCode == HttpStatusCode.OK;
         }
     }

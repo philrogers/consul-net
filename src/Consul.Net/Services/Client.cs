@@ -21,7 +21,7 @@ namespace Consul.Net
         public ConsulClient(ConsulConfiguration config)
         {
             _config = config;
-    
+            
 
             HttpClientHandler handler = new HttpClientHandler();
             handler.AllowAutoRedirect = true;
@@ -31,25 +31,57 @@ namespace Consul.Net
             
         }
 
-        public ConsulClient(string ConnectIpandPort, String strDataCentre)
+        public ConsulClient(string connectipandport, String dc)
             : this(ConsulConfiguration.Instance)
         {
-            _config.ChangeDefaultConnection(ConnectIpandPort, strDataCentre);  
+            _config.ChangeDefaultConnection(connectipandport, dc);  
                    
             HttpClientHandler handler = new HttpClientHandler();
             handler.AllowAutoRedirect = true;
 
             handler.AutomaticDecompression = DecompressionMethods.GZip;
             _client = new HttpClient(handler);
-
+            
         }
 
-        
-        #endregion
+       #endregion
 
         #region // Properties //
         private readonly ConsulConfiguration _config;
         private readonly HttpClient _client;
+        // expose the Current Connection Address
+        public string CurrentAgent
+        {
+            get
+            {
+                return _config.Agent ;
+            }
+        }
+
+        //Expose the current DC:
+        public string CurrentDataCenter
+        {
+            get
+            {
+                return _config.DataCenter;
+            }
+        }
+        public string DefaultAgent
+        {
+            get
+            {
+                return _config.DefaultAgent;
+            }
+        }
+
+        //Expose the default DC at startup:
+        public string DefaultDataCenter
+        {
+            get
+            {
+                return _config.DefaultDataCenter;
+            }
+        }
         #endregion
 
         private Uri GetRequestUri(string suffix)

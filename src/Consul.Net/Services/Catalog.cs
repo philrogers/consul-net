@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+
 
 namespace Consul.Net
 {
-
+    
     public sealed partial class ConsulClient
     {
         public IEnumerable<string> Dclist()
@@ -33,6 +31,5 @@ namespace Consul.Net
             var json = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
-
     }
 }
