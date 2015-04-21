@@ -64,6 +64,7 @@ namespace Consul.Net
             get
             {
                 return _config.DataCenter;
+               
             }
         }
         public string DefaultAgent
